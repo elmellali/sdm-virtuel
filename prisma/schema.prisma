@@ -1,0 +1,64 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model User {
+  id        String   @id @default(cuid())
+  name      String?
+  email     String   @unique
+  password  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model City {
+  id          String     @id @default(cuid())
+  nom         String
+  promoters   Promoter[]
+}
+
+model Category {
+  id          String     @id @default(cuid())
+  nom         String
+  promoters   Promoter[]
+}
+
+model Promoter {
+  id          String    @id @default(cuid())
+  nom         String
+  villeId     String
+  ville       City      @relation(fields: [villeId], references: [id])
+  categorieId String
+  categorie   Category  @relation(fields: [categorieId], references: [id])
+  description String
+  contact     String
+  logo        String?
+  projets     Project[]
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+model Project {
+  id            String   @id @default(cuid())
+  promoterId    String
+  promoter      Promoter @relation(fields: [promoterId], references: [id], onDelete: Cascade)
+  nom           String
+  localisation  String
+  surface       Float?
+  statut        String   // "En cours", "Livré", "À venir"
+  dateLivraison DateTime?
+  description   String
+  image360      String?
+  brochure      String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}

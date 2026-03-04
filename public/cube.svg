@@ -1,0 +1,38 @@
+<svg width="48" height="48" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g opacity="0.9">
+<!-- Top face (brightest) -->
+<path d="M50 20 L80 35 L50 50 L20 35 Z" fill="url(#paint0_linear)"/>
+<!-- Right face (medium, greenish) -->
+<path d="M80 35 L50 50 L50 80 L80 65 Z" fill="url(#paint1_linear)"/>
+<!-- Left face (darkest) -->
+<path d="M20 35 L50 50 L50 80 L20 65 Z" fill="url(#paint2_linear)"/>
+
+<!-- Edges (white glowing) -->
+<path d="M50 20 L80 35 L50 50 L20 35 Z" stroke="white" stroke-opacity="0.9" stroke-width="1.5" stroke-linejoin="round"/>
+<path d="M20 65 L50 80 L80 65" stroke="white" stroke-opacity="0.6" stroke-width="1.5" stroke-linejoin="round"/>
+<path d="M50 50 L50 80" stroke="white" stroke-opacity="0.8" stroke-width="1.5" stroke-linejoin="round"/>
+<path d="M20 35 L20 65" stroke="white" stroke-opacity="0.5" stroke-width="1.5" stroke-linejoin="round"/>
+<path d="M80 35 L80 65" stroke="white" stroke-opacity="0.5" stroke-width="1.5" stroke-linejoin="round"/>
+
+<!-- Top dots effect from image -->
+<circle cx="50" cy="35" r="8" fill="url(#paint3_radial)"/>
+</g>
+<defs>
+<linearGradient id="paint0_linear" x1="50" y1="20" x2="50" y2="50" gradientUnits="userSpaceOnUse">
+<stop stop-color="white" stop-opacity="0.8"/>
+<stop offset="1" stop-color="white" stop-opacity="0.4"/>
+</linearGradient>
+<linearGradient id="paint1_linear" x1="65" y1="35" x2="65" y2="80" gradientUnits="userSpaceOnUse">
+<stop stop-color="#3BE8B0" stop-opacity="0.6"/>
+<stop offset="1" stop-color="#123C30" stop-opacity="0.2"/>
+</linearGradient>
+<linearGradient id="paint2_linear" x1="35" y1="35" x2="35" y2="80" gradientUnits="userSpaceOnUse">
+<stop stop-color="white" stop-opacity="0.3"/>
+<stop offset="1" stop-color="white" stop-opacity="0.05"/>
+</linearGradient>
+<radialGradient id="paint3_radial" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(50 35) scale(8)">
+<stop stop-color="white" stop-opacity="0.9"/>
+<stop offset="1" stop-color="white" stop-opacity="0"/>
+</radialGradient>
+</defs>
+</svg>

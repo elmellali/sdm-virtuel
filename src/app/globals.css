@@ -1,26 +1,203 @@
-@import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Colors - Dark Emerald Theme */
+  --color-bg-start: #0F2E24;
+  --color-bg-mid: #123C30;
+  --color-bg-end: #0A1F18;
+
+  /* Accents */
+  --color-primary: #3BE8B0;
+  /* Bright mint glow */
+  --color-primary-dark: #5FCFA3;
+  /* Soft jade */
+  --color-accent: #3BE8B0;
+
+  /* Typography */
+  --color-text: #F8FAFC;
+  /* Main White */
+  --color-text-muted: #CFE8DF;
+  /* Soft gray/green */
+
+  /* Glassmorphism - Premium Deep */
+  --glass-bg: rgba(255, 255, 255, 0.03);
+  /* Extremely subtle white */
+  --glass-bg-hover: rgba(255, 255, 255, 0.08);
+  /* Glass white */
+  --glass-border: rgba(59, 232, 176, 0.15);
+  /* Soft mint border */
+  --glass-border-glow: rgba(59, 232, 176, 0.4);
+
+  --glass-shadow: 0 8px 32px 0 rgba(10, 31, 24, 0.6), inset 0 1px 0 0 rgba(255, 255, 255, 0.1);
+  --glass-glow: 0 0 20px rgba(59, 232, 176, 0.15);
+
+  --glass-blur: blur(24px);
+  --radius: 24px;
+  --radius-sm: 18px;
+
+  /* Font */
+  --font-inter: 'Inter', sans-serif;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--color-bg-start);
+  background-image: linear-gradient(rgba(10, 31, 24, 0.65), rgba(10, 31, 24, 0.85)), url('/emerald_bg.png');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  color: var(--color-text);
+  font-family: var(--font-inter);
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Base Utility Classes for Glassmorphism */
+.glass-panel {
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius);
+  box-shadow: var(--glass-shadow);
+  transition: all 0.3s ease;
+}
+
+.title-gradient {
+  background: linear-gradient(to right, #FFFFFF, var(--color-primary));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: 800;
+  text-shadow: 0 0 30px rgba(59, 232, 176, 0.3);
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-bg-end);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(59, 232, 176, 0.2);
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(59, 232, 176, 0.5);
+}
+
+/* Animations Globales */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-50px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(50px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes pulseGlow {
+  0% {
+    box-shadow: 0 0 10px rgba(59, 232, 176, 0.2);
+  }
+
+  50% {
+    box-shadow: 0 0 25px rgba(59, 232, 176, 0.6);
+  }
+
+  100% {
+    box-shadow: 0 0 10px rgba(59, 232, 176, 0.2);
+  }
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  opacity: 0;
+}
+
+.animate-fade-in {
+  animation: fadeIn 1s ease forwards;
+  opacity: 0;
+}
+
+.animate-slide-left {
+  animation: slideInLeft 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  opacity: 0;
+}
+
+.animate-slide-right {
+  animation: slideInRight 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  opacity: 0;
+}
+
+.animate-pulse {
+  animation: pulseGlow 3s infinite ease-in-out;
+}
+
+/* Delay Utilities */
+.delay-100 {
+  animation-delay: 100ms;
+}
+
+.delay-200 {
+  animation-delay: 200ms;
+}
+
+.delay-300 {
+  animation-delay: 300ms;
+}
+
+.delay-400 {
+  animation-delay: 400ms;
+}
+
+.delay-500 {
+  animation-delay: 500ms;
 }
