@@ -10,7 +10,7 @@ import styles from "./project.module.css";
 // Force absolute layout for this specific page to maximize viewer space
 export default async function ProjectPage({ params }: { params: Promise<{ id: string }> }) {
     const resolvedParams = await params;
-    const project = await getProjectById(resolvedParams.id);
+    const project = await getProjectById(resolvedParams.id) as any;
 
     if (!project) {
         notFound();
