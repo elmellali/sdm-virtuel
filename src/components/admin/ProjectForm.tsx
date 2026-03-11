@@ -11,9 +11,10 @@ import { createProject, updateProject } from "@/actions/projects";
 interface FormProps {
     initialData?: any;
     promoters: any[];
+    banks: any[];
 }
 
-export default function ProjectForm({ initialData, promoters }: FormProps) {
+export default function ProjectForm({ initialData, promoters, banks }: FormProps) {
     const router = useRouter();
     const isEditing = !!initialData;
     const [loading, setLoading] = useState(false);
@@ -35,6 +36,7 @@ export default function ProjectForm({ initialData, promoters }: FormProps) {
         description: initialData?.description || "",
         image360: initialData?.image360 || null,
         brochure: initialData?.brochure || null,
+        bankIds: initialData?.banks?.map((b: any) => b.id) || []
     });
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -182,6 +184,44 @@ export default function ProjectForm({ initialData, promoters }: FormProps) {
                             rows={5}
                             placeholder="Détaillez les spécificités du projet..."
                         />
+                    </div>
+
+                    <div className={styles.formGroup}>
+                        <label>Banques partenaires associées</label>
+                        <div style={{ 
+                            display: "grid", 
+                            gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))", 
+                            gap: "0.75rem",
+                            background: "rgba(255, 255, 255, 0.03)",
+                            padding: "1rem",
+                            borderRadius: "8px",
+                            border: "1px solid var(--glass-border)"
+                        }}>
+                            {banks.map((bank) => (
+                                <label key={bank.id} style={{ display: "flex", alignItems: "center", gap: "0.5rem", cursor: "pointer", fontSize: "0.9rem" }}>
+                                    <input
+                                        type="checkbox"
+                                        checked={formData.bankIds.includes(bank.id)}
+                                        onChange={(e) => {
+                                            const checked = e.target.checked;
+                                            setFormData(prev => ({
+                                                ...prev,
+                                                bankIds: checked 
+                                                    ? [...prev.bankIds, bank.id]
+                                                    : prev.bankIds.filter((id: string) => id !== bank.id)
+                                            }));
+                                        }}
+                                        style={{ width: "16px", height: "16px", accentColor: "var(--color-primary)" }}
+                                    />
+                                    {bank.nom}
+                                </label>
+                            ))}
+                        </div>
+                        {banks.length === 0 && (
+                            <p style={{ fontSize: "0.85rem", color: "var(--color-text-muted)" }}>
+                                Aucune banque configurée. <Link href="/admin/banques" style={{ color: "var(--color-primary)" }}>En ajouter une</Link>
+                            </p>
+                        )}
                     </div>
 
                     <div className={styles.submitSection}>

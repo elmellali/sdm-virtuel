@@ -43,8 +43,18 @@ model Promoter {
   contact     String
   logo        String?
   projets     Project[]
+  banks       Bank[]
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
+}
+
+model Bank {
+  id          String     @id @default(cuid())
+  nom         String
+  logo        String?
+  contact     String?
+  promoters   Promoter[]
+  projects    Project[]
 }
 
 model Project {
@@ -59,6 +69,7 @@ model Project {
   description   String
   image360      String?
   brochure      String?
+  banks         Bank[]
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
 }

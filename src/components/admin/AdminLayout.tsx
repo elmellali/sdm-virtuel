@@ -38,6 +38,7 @@ export default function AdminLayoutComponent({
         { name: "Promoteurs", href: "/admin/promoteurs", icon: Building2 },
         { name: "Projets", href: "/admin/projets", icon: FolderOpen },
         { name: "Médias", href: "/admin/medias", icon: FolderOpen },
+        { name: "Banques", href: "/admin/banques", icon: Building2 },
         { name: "Paramètres", href: "/admin/parametres", icon: Settings },
     ];
 

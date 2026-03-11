@@ -17,18 +17,31 @@ export async function getProjectById(id: string) {
         where: { id },
         include: {
             promoter: true,
-        }
+            banks: true,
+        } as any
     });
 }
 
 export async function createProject(data: any) {
+    const bankIds = data.bankIds || [];
+    if ('bankIds' in data) delete data.bankIds;
+
     if (data.dateLivraison) {
         data.dateLivraison = new Date(data.dateLivraison);
     }
     if (data.surface) {
         data.surface = parseFloat(data.surface);
     }
-    const project = await prisma.project.create({ data });
+    
+    const project = await prisma.project.create({ 
+        data: {
+            ...data,
+            banks: {
+                connect: bankIds.map((id: string) => ({ id }))
+            }
+        } 
+    });
+    
     revalidatePath('/admin/projets');
     if (project.promoterId) {
         revalidatePath(`/promoteur/${project.promoterId}`);
@@ -37,13 +50,29 @@ export async function createProject(data: any) {
 }
 
 export async function updateProject(id: string, data: any) {
+    const bankIds = data.bankIds || [];
+    const hasBanksKey = 'bankIds' in data;
+    if (hasBanksKey) delete data.bankIds;
+
     if (data.dateLivraison) {
         data.dateLivraison = new Date(data.dateLivraison);
     }
     if (data.surface) {
         data.surface = parseFloat(data.surface);
     }
-    const project = await prisma.project.update({ where: { id }, data });
+
+    const updateData: any = { ...data };
+    if (hasBanksKey) {
+        updateData.banks = {
+            set: bankIds.map((bid: string) => ({ id: bid }))
+        };
+    }
+
+    const project = await prisma.project.update({ 
+        where: { id }, 
+        data: updateData 
+    });
+    
     revalidatePath('/admin/projets');
     revalidatePath(`/projet/${id}`);
     if (project.promoterId) {

@@ -8,6 +8,7 @@ export async function getPromoters() {
         include: {
             ville: true,
             categorie: true,
+            banks: true,
             _count: {
                 select: { projets: true }
             }
@@ -22,20 +23,40 @@ export async function getPromoterById(id: string) {
         include: {
             ville: true,
             categorie: true,
+            banks: true,
             projets: true,
         }
     });
 }
 
 export async function createPromoter(data: any) {
-    const promoter = await prisma.promoter.create({ data });
+    const { banks, ...promoterData } = data;
+    
+    const promoter = await prisma.promoter.create({ 
+        data: {
+            ...promoterData,
+            banks: {
+                connect: banks?.map((id: string) => ({ id })) || []
+            }
+        } 
+    });
     revalidatePath('/admin/promoteurs');
     revalidatePath('/');
     return promoter;
 }
 
 export async function updatePromoter(id: string, data: any) {
-    const promoter = await prisma.promoter.update({ where: { id }, data });
+    const { banks, ...promoterData } = data;
+
+    const promoter = await prisma.promoter.update({ 
+        where: { id }, 
+        data: {
+            ...promoterData,
+            banks: {
+                set: banks?.map((bankId: string) => ({ id: bankId })) || []
+            }
+        } 
+    });
     revalidatePath('/admin/promoteurs');
     revalidatePath(`/promoteur/${id}`);
     revalidatePath('/');

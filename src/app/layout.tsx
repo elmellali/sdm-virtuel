@@ -4,6 +4,8 @@ import "./globals.css";
 
 import Providers from "@/components/Providers";
 
+import Chatbot from "@/components/public/Chatbot";
+
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 
 export const metadata: Metadata = {
@@ -22,6 +24,7 @@ export default function RootLayout({
         <Providers>
           <div className="app-container">
             {children}
+            <Chatbot />
           </div>
         </Providers>
       </body>

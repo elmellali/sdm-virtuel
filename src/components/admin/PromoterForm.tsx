@@ -12,9 +12,10 @@ interface FormProps {
     initialData?: any;
     categories: any[];
     cities: any[];
+    banks?: any[];
 }
 
-export default function PromoterForm({ initialData, categories, cities }: FormProps) {
+export default function PromoterForm({ initialData, categories, cities, banks = [] }: FormProps) {
     const router = useRouter();
     const isEditing = !!initialData;
     const [loading, setLoading] = useState(false);
@@ -27,11 +28,23 @@ export default function PromoterForm({ initialData, categories, cities }: FormPr
         description: initialData?.description || "",
         contact: initialData?.contact || "",
         logo: initialData?.logo || null,
+        banks: initialData?.banks?.map((b: any) => b.id) || [],
     });
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
         const { name, value } = e.target;
         setFormData(prev => ({ ...prev, [name]: value }));
+    };
+
+    const handleBankChange = (bankId: string) => {
+        setFormData(prev => {
+            const currentBanks = prev.banks || [];
+            if (currentBanks.includes(bankId)) {
+                return { ...prev, banks: currentBanks.filter((id: string) => id !== bankId) };
+            } else {
+                return { ...prev, banks: [...currentBanks, bankId] };
+            }
+        });
     };
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -149,6 +162,31 @@ export default function PromoterForm({ initialData, categories, cities }: FormPr
                             rows={5}
                             placeholder="Détaillez les activités et l'expertise de l'entreprise..."
                         />
+                    </div>
+
+                    <div className={styles.formGroup}>
+                        <label>Options de Financement (Banques Partenaires)</label>
+                        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))", gap: "1rem", marginTop: "0.5rem" }}>
+                            {banks.map((bank) => (
+                                <label key={bank.id} style={{ display: "flex", alignItems: "center", gap: "0.5rem", cursor: "pointer" }}>
+                                    <input
+                                        type="checkbox"
+                                        checked={formData.banks.includes(bank.id)}
+                                        onChange={() => handleBankChange(bank.id)}
+                                        style={{ accentColor: "var(--color-primary)", width: "16px", height: "16px" }}
+                                    />
+                                    {bank.logo ? (
+                                        <img src={bank.logo} alt={bank.nom} style={{ height: "20px", borderRadius: "2px" }} />
+                                    ) : null}
+                                    <span style={{ fontSize: "0.9rem" }}>{bank.nom}</span>
+                                </label>
+                            ))}
+                            {banks.length === 0 && (
+                                <p style={{ fontSize: "0.85rem", color: "var(--color-text-muted)", fontStyle: "italic" }}>
+                                    Aucune banque disponible. Créez-en une dans le menu Banques.
+                                </p>
+                            )}
+                        </div>
                     </div>
 
                     <div className={styles.submitSection}>

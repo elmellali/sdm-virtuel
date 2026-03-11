@@ -2,8 +2,9 @@ import { getPromoterById } from "@/actions/promoters";
 import Navbar from "@/components/public/Navbar";
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { MapPin, Mail, Phone, Globe, ChevronRight, Play, Box, Building2, CheckCircle2, ShieldCheck, Trophy, BadgeCheck } from "lucide-react";
+import { MapPin, Mail, Phone, Globe, ChevronRight, Play, Box, Building2, CheckCircle2, ShieldCheck, Trophy, BadgeCheck, Landmark, ExternalLink } from "lucide-react";
 import styles from "./promoter.module.css";
+import PromoterBanksClient from "@/components/public/PromoterBanksClient";
 
 export default async function PromoterPage({ params }: { params: Promise<{ id: string }> }) {
     const resolvedParams = await params;
@@ -37,7 +38,7 @@ export default async function PromoterPage({ params }: { params: Promise<{ id: s
 
                         <div className={styles.infoSection}>
                             <div className={styles.badges}>
-                                <span className={styles.badgePrimary}>{promoter.categorie.nom}</span>
+                                <span className={styles.badgePrimary}>{(promoter as any).categorie.nom}</span>
                                 <span className={styles.badgeSecondary}>ID: {promoter.id.substring(0, 8)}</span>
                             </div>
 
@@ -48,7 +49,7 @@ export default async function PromoterPage({ params }: { params: Promise<{ id: s
                             <div className={styles.metaInfo}>
                                 <div className={styles.metaItem}>
                                     <MapPin size={18} />
-                                    <span>{promoter.ville.nom}</span>
+                                    <span>{(promoter as any).ville.nom}</span>
                                 </div>
 
                                 <div className={styles.metaItem}>
@@ -82,13 +83,26 @@ export default async function PromoterPage({ params }: { params: Promise<{ id: s
                                     <span className={styles.statLabel}>Années d'expertise</span>
                                 </div>
                                 <div className={styles.statItem}>
-                                    <span className={styles.statValue}>{promoter.projets.length}</span>
+                                    <span className={styles.statValue}>{(promoter as any).projets?.length || 0}</span>
                                     <span className={styles.statLabel}>Projets Exclusifs</span>
                                 </div>
                             </div>
                         </div>
 
-                        <div className={`glass-panel ${styles.contentBlock} animate-slide-left delay-200`}>
+                        {(promoter as any).banks && (promoter as any).banks.length > 0 && (
+                            <div className={`glass-panel ${styles.contentBlock} animate-slide-left delay-200`}>
+                                <h2 style={{ fontSize: "1.25rem", marginBottom: "1rem", display: "flex", alignItems: "center", gap: "0.5rem" }}>
+                                    <Landmark className="text-emerald-400" size={20} />
+                                    Options de Financement Bancaire
+                                </h2>
+                                <p style={{ marginBottom: "1rem", color: "var(--color-text-muted)", fontSize: "0.95rem" }}>
+                                    En partenariat avec les meilleures institutions financières, nous vous proposons des solutions sur-mesure pour concrétiser votre projet.
+                                </p>
+                                <PromoterBanksClient banks={(promoter as any).banks || []} promoterName={promoter.nom} />
+                            </div>
+                        )}
+
+                        <div className={`glass-panel ${styles.contentBlock} animate-slide-left delay-300`}>
                             <h2 style={{ fontSize: "1.25rem", marginBottom: "1rem", display: "flex", alignItems: "center", gap: "0.5rem" }}>
                                 <ShieldCheck className="text-emerald-400" size={20} />
                                 Engagements & Services
@@ -117,16 +131,16 @@ export default async function PromoterPage({ params }: { params: Promise<{ id: s
                     {/* Right Column / Projects */}
                     <div className={styles.rightColumn}>
                         <div className={styles.projectsHeader}>
-                            <h2 style={{ fontSize: "1.5rem" }}>Projets ({promoter.projets.length})</h2>
+                            <h2 style={{ fontSize: "1.5rem" }}>Projets ({(promoter as any).projets?.length || 0})</h2>
                         </div>
 
-                        {promoter.projets.length === 0 ? (
+                        {!(promoter as any).projets || (promoter as any).projets.length === 0 ? (
                             <div className={`glass-panel ${styles.emptyProjects} animate-fade-in-up delay-100`}>
                                 <p>Aucun projet n'est actuellement exposé.</p>
                             </div>
                         ) : (
                             <div className={styles.projectsList}>
-                                {promoter.projets.map((project: any, index: number) => {
+                                {(promoter as any).projets.map((project: any, index: number) => {
                                     const delayClass = `delay-${((index % 5) + 1) * 100}`;
                                     return (
                                         <div key={project.id} className={`glass-panel ${styles.projectCard} animate-fade-in-up ${delayClass}`}>
