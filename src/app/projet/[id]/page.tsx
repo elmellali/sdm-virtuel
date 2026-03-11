@@ -1,11 +1,12 @@
 import { getProjectById } from "@/actions/projects";
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { ArrowLeft, Building2, MapPin, Calendar, Compass, Box, Home, Phone, Download, CheckCircle2 } from "lucide-react";
+import { ArrowLeft, Building2, MapPin, Calendar, Compass, Box, Home, Phone, Download, CheckCircle2, Landmark } from "lucide-react";
 import ProjectViewer360 from "@/components/public/ProjectViewer360";
 import Particles from "@/components/public/Particles";
 import Navbar from "@/components/public/Navbar";
 import styles from "./project.module.css";
+import PromoterBanksClient from "@/components/public/PromoterBanksClient";
 
 // Force absolute layout for this specific page to maximize viewer space
 export default async function ProjectPage({ params }: { params: Promise<{ id: string }> }) {
@@ -76,6 +77,16 @@ export default async function ProjectPage({ params }: { params: Promise<{ id: st
                                 <span className={styles.featureValue}>{project.dateLivraison ? new Date(project.dateLivraison).getFullYear() : "Immédiate"}</span>
                             </div>
                         </div>
+
+                        {project.banks && project.banks.length > 0 && (
+                            <div style={{ marginBottom: "2.5rem" }}>
+                                <h2 style={{ fontSize: "1.25rem", marginBottom: "1rem", display: "flex", alignItems: "center", gap: "0.5rem", color: "white" }}>
+                                    <Landmark className="text-emerald-400" size={20} />
+                                    Partenaires Financiers
+                                </h2>
+                                <PromoterBanksClient banks={project.banks} promoterName={project.nom} />
+                            </div>
+                        )}
 
                         <div className={styles.actionContainer}>
                             <a href={`mailto:${project.promoter.contact}`} className={`${styles.primaryBtn} animate-pulse`}>
