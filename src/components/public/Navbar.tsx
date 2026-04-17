@@ -6,12 +6,12 @@ export default function Navbar() {
     return (
         <header className={styles.header}>
             <div className={styles.container}>
-                <Link href="/" className={styles.logo}>
+                <Link href="/site" className={styles.logo}>
                     <strong style={{ fontWeight: 800, color: "white" }}>SDM</strong> <span style={{ fontWeight: 300, color: "rgba(255, 255, 255, 0.9)" }}>virtuel</span>
                 </Link>
 
                 <nav className={styles.nav}>
-                    <Link href="/" className={styles.navLink}>Accueil</Link>
+                    <Link href="/site" className={styles.navLink}>Accueil</Link>
                     <Link href="/projets" className={styles.navLink}>Projets</Link>
                     <Link href="/about" className={styles.navLink}>À propos</Link>
                     <Link href="/contact" className={styles.navLink}>Contact</Link>

@@ -46,7 +46,10 @@ export default function FileUpload({
             const data = await res.json();
 
             if (!res.ok) {
-                throw new Error(data.error || "Erreur de téléversement");
+                const errorMessage = data.details 
+                    ? `${data.error} : ${data.details}` 
+                    : (data.error || "Erreur de téléversement");
+                throw new Error(errorMessage);
             }
 
             onUploadSuccess(data.url);

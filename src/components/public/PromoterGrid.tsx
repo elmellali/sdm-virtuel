@@ -3,7 +3,7 @@
 import { useState, useMemo } from "react";
 import Link from "next/link";
 import { Search, MapPin, Building2, ChevronRight, X, Box } from "lucide-react";
-import styles from "@/app/home.module.css";
+import styles from "@/app/site/home.module.css";
 
 interface PromoterGridProps {
     initialPromoters: any[];
