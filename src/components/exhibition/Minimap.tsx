@@ -155,7 +155,7 @@ export function Minimap({ position, rotation }: MinimapProps) {
       <div style={{
         position: 'absolute', bottom: '8px', left: '8px', padding: '4px 8px',
         borderRadius: '6px', background: 'rgba(0,0,0,0.6)', color: 'rgba(255,255,255,0.7)',
-        fontSize: '10px', fontHarmonized: true, fontFamily: 'monospace'
+        fontSize: '10px', fontFamily: 'monospace'
       }}>
         X: {position.x.toFixed(1)} Z: {position.z.toFixed(1)}
       </div>

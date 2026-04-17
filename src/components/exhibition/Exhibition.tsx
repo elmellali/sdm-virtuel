@@ -40,7 +40,7 @@ function StandLabel({ title, position }: { title: string, position: [number, num
                     outlineWidth={0.02}
                     outlineColor="#a7d0b3"
                     material-toneMapped={false}
-                    depthTest={false}
+                    material-depthTest={false}
                 >
                     {title}
                 </Text>
